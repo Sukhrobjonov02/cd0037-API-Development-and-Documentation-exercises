@@ -1,6 +1,5 @@
-import os
 from flask import Flask, request, abort, jsonify
-from flask_sqlalchemy import SQLAlchemy  # , or_
+from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 import random
 
@@ -9,21 +8,23 @@ from models import setup_db, Book
 BOOKS_PER_SHELF = 8
 
 
-def paginate_books(request, selection):
-    page = request.args.get("page", 1, type=int)
-    start = (page - 1) * BOOKS_PER_SHELF
-    end = start + BOOKS_PER_SHELF
+def paginate_books(request, books):
+        page = request.args.get('page', 1, type=int)
+        start = (page - 1) * BOOKS_PER_SHELF
+        end = start + BOOKS_PER_SHELF
 
-    books = [book.format() for book in selection]
-    current_books = books[start:end]
-
-    return current_books
+        books = [book.format() for book in books]
+        return books[start:end]
 
 
-def create_app(test_config=None):
+def create_app(db_URI="", test_config=None):
     # create and configure the app
     app = Flask(__name__)
-    setup_db(app)
+    app.app_context().push()
+    if db_URI:
+        setup_db(app, db_URI)
+    else:
+        setup_db(app)
     CORS(app)
 
     # CORS Headers
@@ -65,6 +66,10 @@ def create_app(test_config=None):
 
             if "rating" in body:
                 book.rating = int(body.get("rating"))
+            if "title" in body:
+                book.title = body.get("title")
+            if "author" in body:
+                book.author = body.get("author")
 
             book.update()
 
@@ -130,20 +135,34 @@ def create_app(test_config=None):
 
     @app.errorhandler(404)
     def not_found(error):
-        return (
-            jsonify({"success": False, "error": 404, "message": "resource not found"}),
-            404,
-        )
-
+        return jsonify({
+            "success": False,
+            "error": 404,
+            "message": "resource not found"
+        }), 404
+    
     @app.errorhandler(422)
     def unprocessable(error):
-        return (
-            jsonify({"success": False, "error": 422, "message": "unprocessable"}),
-            422,
-        )
+        return jsonify({
+            "success": False,
+            "error": 422,
+            "message": "unprocessable"
+        }), 422
 
     @app.errorhandler(400)
-    def bad_request(error):
-        return jsonify({"success": False, "error": 400, "message": "bad request"}), 400
+    def invalid_request(error):
+        return jsonify({
+            "success": False,
+            "error": 400,
+            "message": "invalid request"
+        }), 400
+
+    @app.errorhandler(405)
+    def not_found(error):
+        return jsonify({
+            "success": False,
+            "error": 405,
+            "message": "method not allowed",
+        }), 405
 
     return app

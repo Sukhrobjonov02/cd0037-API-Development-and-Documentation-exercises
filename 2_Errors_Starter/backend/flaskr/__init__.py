@@ -8,20 +8,19 @@ from models import setup_db, Book
 BOOKS_PER_SHELF = 8
 
 
-def paginate_books(request, selection):
-    page = request.args.get("page", 1, type=int)
-    start = (page - 1) * BOOKS_PER_SHELF
-    end = start + BOOKS_PER_SHELF
+def paginate_books(request, books):
+        page = request.args.get('page', 1, type=int)
+        start = (page - 1) * BOOKS_PER_SHELF
+        end = start + BOOKS_PER_SHELF
 
-    books = [book.format() for book in selection]
-    current_books = books[start:end]
-
-    return current_books
+        books = [book.format() for book in books]
+        return books[start:end]
 
 
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__)
+    app.app_context().push()
     setup_db(app)
     CORS(app)
 
@@ -127,13 +126,36 @@ def create_app(test_config=None):
         except:
             abort(422)
 
-    # @TODO: Review the above code for route handlers.
-    #        Pay special attention to the status codes used in the aborts since those are relevant for this task!
+    @app.errorhandler(404)
+    def not_found(error):
+        return jsonify({
+            "success": False,
+            "error": 404,
+            "message": "resource not found"
+        }), 404
+    
+    @app.errorhandler(422)
+    def unprocessable(error):
+        return jsonify({
+            "success": False,
+            "error": 422,
+            "message": "unprocessable"
+        }), 422
 
-    # @TODO: Write error handler decorators to handle AT LEAST status codes 400, 404, and 422.
+    @app.errorhandler(400)
+    def invalid_request(error):
+        return jsonify({
+            "success": False,
+            "error": 400,
+            "message": "invalid request"
+        }), 400
 
-    # TEST: Practice writing curl requests. Write some requests that you know will error in expected ways.
-    #       Make sure they are returning as expected. Do the same for other misformatted requests or requests missing data.
-    #       If you find any error responses returning as HTML, write new error handlers for them.
+    @app.errorhandler(405)
+    def not_found(error):
+        return jsonify({
+            "succes": False,
+            "error": 405,
+            "message": "method not allowed",
+        }), 405
 
     return app
