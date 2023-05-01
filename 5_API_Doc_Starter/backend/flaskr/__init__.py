@@ -8,23 +8,6 @@ from models import setup_db, Book
 
 BOOKS_PER_SHELF = 8
 
-# TODO: Define the create_app method and complete initial set up of the application
-# TODO: Enable CORS and set response headers
-# TODO: Define an app route to retrieve all books
-# TODO: Define pagination behavior on the get request
-
-# TODO: Define an endpoint to delete a book based on id. If it doesn't exist, abort.
-# TODO: Define a PATCH endpoint that updates a book's rating.
-# Abort if the book doesn't exist or the update fails
-# TODO: Define a POST endpoint to handle creating a new book instance.
-# Abort if creation is unsuccessful
-
-# TODO: Write error handlers for all abort status codes utilized in the endpoints
-# They should return the code, a message, and success value.
-
-# TODO: AFTER writing the corresponding tests, write an endpoint or update a previous endpoint
-# that handles a search arg in the body of the request and return paginated results.
-
 def paginate_books(request, books):
         page = request.args.get('page', 1, type=int)
         start = (page - 1) * BOOKS_PER_SHELF
