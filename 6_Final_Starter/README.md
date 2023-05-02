@@ -1,6 +1,55 @@
-# Project README - TODO: CHANGE THIS TITLE
+# The Treasure Library
 
+This is practical project that I'd completed during studying Udacity Fullstack Nanodegree program, API Development and Documentation course. Users can add any books, delete them, modify them by title, author or ratings and search through book lists.
+By doing this project I've learned and applied my skills structuring and implementing well formatted API endpoints that leverage knowledge of HTTP and (REST) API development best practices.
 
+All backend code follows [PEP8 style guidelines](https://www.python.org/dev/peps/pep-0008/).
+
+## Getting Started
+
+### Pre-requisits and Local Development
+You need to install [Python3](https://realpython.com/installing-python/), [virtual environment](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/#installing-virtualenv), [pip](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/#installing-pip) and [node](https://kinsta.com/blog/how-to-install-node-js/) on your local machine to run this project.
+
+#### Backend
+
+First, [create virtual environment](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/#creating-a-virtual-environment) and [activate](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/#activating-a-virtual-environment) it.
+From the backend folder run `pip install requirements.txt`. All required packages are included in the requirements file.
+
+To run the application run the following commands:
+```
+export FLASK_APP=flaskr
+export FLASK_ENV=development
+flask run
+```
+
+These commands put the application in development and directs our app to use the `__init__.py` file in our flaskr folder. Working in development mode shows an interactive debugger in the console and restarts the server whenever changes are made. If running locally on Windows, look for the commands in the [Flask documentation](http://flask.pocoo.org/docs/1.0/tutorial/factory/).
+
+The app is run on `http://127.0.0.1:5000/` by default and is a proxy in the forntend configuration.
+
+#### Frontend
+
+From the frontend folder, run the following commands to start the client:
+```
+npm install // only once to install dependencies
+npm start
+```
+
+By default, the frontend will run on localhost:3000.
+
+### Tests
+
+In order to run tests, navigate to the backend folder and run the following commands:
+
+```
+dropdb bookshelf_test
+createdb bookshelf_test
+psql bookshelf_test < books.psql
+python test_flaskr.py
+```
+
+The first time you run the tests, omit the dropdb command.
+
+All tests are kept in that file and should be maintained as updates are made to app functionality.
 
 ## API Reference
 
@@ -169,3 +218,14 @@ The API will return three error types when requests fail:
   "success": true
 }
 ```
+
+## Deployment N/A
+
+## Authors
+[Abdulaziz Sukhrobjonov](https://www.linkedin.com/in/abdulaziz-sukhrobjonov/)
+
+## License
+
+`The Treasure Library` is a public domain work, dedicated using
+[CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/). Feel free to do
+whatever you want with it.
