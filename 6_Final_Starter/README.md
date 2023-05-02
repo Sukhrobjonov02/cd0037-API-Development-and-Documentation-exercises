@@ -13,7 +13,7 @@ You need to install [Python3](https://realpython.com/installing-python/), [virtu
 #### Backend
 
 First, [create virtual environment](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/#creating-a-virtual-environment) and [activate](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/#activating-a-virtual-environment) it.
-From the backend folder run `pip install requirements.txt`. All required packages are included in the requirements file.
+From the backend folder run `pip install -r requirements.txt`. All required packages are included in the requirements file.
 
 To run the application run the following commands:
 ```
